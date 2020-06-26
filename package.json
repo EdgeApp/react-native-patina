@@ -43,6 +43,7 @@
     "eslint-plugin-react": ">=7.14.2",
     "eslint-plugin-simple-import-sort": ">=4.0.0",
     "eslint-plugin-standard": ">=4.0.0",
+    "flow-bin": "^0.127.0",
     "husky": "^4.0.0",
     "lint-staged": "^10.2.0",
     "prettier": "^2.0.0",
