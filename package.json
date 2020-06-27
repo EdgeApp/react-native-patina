@@ -1,7 +1,7 @@
 {
   "name": "react-native-patina",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "description": "A simple, type-aware theming library",
   "repository": "git@github.com:EdgeApp/react-native-patina",
   "license": "MIT",
