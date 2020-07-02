@@ -28,11 +28,11 @@ export interface ThemeContext<Theme> {
   watchTheme(callback: WatchCallback<Theme>): Unsubscribe
 
   // React component access:
-  ThemeProvider: React.ComponentClass<ProviderProps>
+  ThemeProvider: React.ComponentType<ProviderProps>
   useTheme(): Theme
   withTheme<Props extends { theme: Theme }>(
     Component: React.ComponentType<Props>
-  ): React.FunctionComponent<RemoveTheme<Props>>
+  ): React.ComponentType<RemoveTheme<Props>>
 }
 
 /**
