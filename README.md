@@ -127,7 +127,7 @@ export const getStyles = cacheStyles((theme: AppTheme) => ({
     fontSize: theme.rem(1.2)
   },
 
-  text {
+  text: {
     color: theme.foregroundColor,
     fontSize: theme.rem(1)
   }
