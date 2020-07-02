@@ -42,8 +42,6 @@ declare export function makeThemeContext<Theme>(
   theme: Theme
 ): ThemeContext<Theme>
 
-type NativeStyles<Styles: Object> = $ObjMap<Styles, (style: any) => mixed>
-
 declare export function cacheStyles<Theme, Styles: Object>(
   callback: (theme: Theme) => Styles
-): (theme: Theme) => NativeStyles<Styles>
+): (theme: Theme) => Styles

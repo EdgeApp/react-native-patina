@@ -2,17 +2,13 @@ import { StyleSheet } from 'react-native'
 
 let cacheSize = 1
 
-type NativeStyles<Styles> = {
-  readonly [K in keyof Styles]: unknown
-}
-
 /**
  * Memoizes a theme-to-stylesheet conversion function.
  */
 export function cacheStyles<Theme, Styles>(
   callback: (theme: Theme) => Styles
-): (theme: Theme) => NativeStyles<Styles> {
-  const cache: Array<{ theme: Theme; style: NativeStyles<Styles> }> = []
+): (theme: Theme) => Styles {
+  const cache: Array<{ theme: Theme; style: Styles }> = []
 
   return function styleCache(theme: Theme) {
     // Quickly try the first cache entry:
