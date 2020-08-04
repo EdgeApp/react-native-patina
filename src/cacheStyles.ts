@@ -1,13 +1,14 @@
-import { StyleSheet } from 'react-native'
+import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native'
 
 let cacheSize = 1
 
 /**
  * Memoizes a theme-to-stylesheet conversion function.
  */
-export function cacheStyles<Theme, Styles>(
-  callback: (theme: Theme) => Styles
-): (theme: Theme) => Styles {
+export function cacheStyles<
+  Theme,
+  Styles extends { [key: string]: ViewStyle | TextStyle | ImageStyle }
+>(callback: (theme: Theme) => Styles): (theme: Theme) => Styles {
   const cache: Array<{ theme: Theme; style: Styles }> = []
 
   return function styleCache(theme: Theme) {

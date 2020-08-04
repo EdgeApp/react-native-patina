@@ -10,7 +10,7 @@ export type WatchCallback<Theme> = (theme: Theme) => void
  */
 export type Unsubscribe = () => void
 
-interface ProviderProps {
+export interface ThemeProviderProps {
   children?: React.ReactNode
 }
 
@@ -28,7 +28,7 @@ export interface ThemeContext<Theme> {
   watchTheme(callback: WatchCallback<Theme>): Unsubscribe
 
   // React component access:
-  ThemeProvider: React.ComponentType<ProviderProps>
+  ThemeProvider: React.ComponentType<ThemeProviderProps>
   useTheme(): Theme
   withTheme<Props extends { theme: Theme }>(
     Component: React.ComponentType<Props>
@@ -64,10 +64,13 @@ export function makeThemeContext<Theme>(theme: Theme): ThemeContext<Theme> {
   /**
    * Provides the current theme to the React component tree.
    */
-  class ThemeProvider extends React.Component<ProviderProps, { theme: Theme }> {
+  class ThemeProvider extends React.Component<
+    ThemeProviderProps,
+    { theme: Theme }
+  > {
     unsubscribe?: Unsubscribe = undefined
 
-    constructor(props: ProviderProps) {
+    constructor(props: ThemeProviderProps) {
       super(props)
       this.state = { theme }
     }
