@@ -9,7 +9,7 @@ You can use these parts either together or separately. Both come with deep, auto
 
 This library is unopinionated about what a theme should contain. A "theme" is just a plain Javascript object with whatever properties you like (including methods). Here is an example of a pair of themes:
 
-```typescript
+```tsx
 const darkTheme = {
   backgroundColor: '#000000',
   foregroundColor: '#ffffff',
@@ -27,9 +27,11 @@ type AppTheme = typeof darkTheme
 
 ## Using ThemeContext
 
-The `ThemeContext` object can help distribute a theme object throughout your app. First, create a `ThemeContext` object based on your initial theme:
+The `ThemeContext` object can help distribute a theme object throughout your app. Compared to just using the React context API directly, `ThemeContext` adds a way for non-React code to also get access to the current theme. This can be important if you have Redux actions or other logic that might also care about appearances.
 
-```typescript
+First, create a `ThemeContext` object based on your initial theme:
+
+```tsx
 import { makeThemeContext } from 'react-native-patina'
 
 // The ThemeContext contains a bunch of methods your app
@@ -46,7 +48,7 @@ export const {
 
 Next, use the `ThemeContext.ThemeProvider` component to inject the current theme into your React component tree:
 
-```typescript
+```tsx
 const YourApp = () => (
   <ThemeProvider>
     <AllYourScenes />
@@ -56,11 +58,11 @@ const YourApp = () => (
 
 The `ThemeContext.useTheme` hook lets your function-style components access the current theme:
 
-```typescript
+```tsx
 const HeaderText = props => {
   const theme = useTheme()
 
-  // Note: you can use cacheStyles to optimize this:
+  // Note: See cacheStyles for how to optimize this:
   const style = {
     color: theme.foregroundColor,
     fontSize: theme.rem(1.2)
@@ -71,12 +73,12 @@ const HeaderText = props => {
 
 Or, if you are using class-based components, use the `ThemeContext.withTheme` wrapper to inject a `theme` property into your component:
 
-```typescript
+```tsx
 class HeaderTextInner {
   render() {
     const { theme } = this.props
 
-    // Note: you can use cacheStyles to optimize this:
+    // Note: See cacheStyles for how to optimize this:
     const style = {
       color: theme.foregroundColor,
       fontSize: theme.rem(1.2)
@@ -90,7 +92,7 @@ export const HeaderText = withTheme(HeaderTextInner)
 
 To change the current theme, just call `ThemeContext.changeTheme`:
 
-```typescript
+```tsx
 changeTheme(lightTheme)
 ```
 
@@ -98,13 +100,13 @@ This will automatically re-render any React components that use the theme.
 
 If non-React code needs to access the theme, use `ThemeContext.getTheme` to read the current theme:
 
-```typescript
+```tsx
 StatusBar.setBackgroundColor(getTheme().statusBarColor)
 ```
 
 You can also use `ThemeProvider.watchTheme` to subscribe to updates:
 
-```typescript
+```tsx
 const unsubscribe = watchTheme(theme => {
   StatusBar.setBackgroundColor(theme.statusBarColor)
 })
@@ -118,7 +120,7 @@ The examples above use inline React Native styles, which are slow. Your app will
 
 The `cacheStyles` helper function solves this by memoizing (caching) calls to `StyleSheet.create`:
 
-```typescript
+```tsx
 import { cacheStyles } from 'react-native-patina'
 
 export const getStyles = cacheStyles((theme: AppTheme) => ({
@@ -134,9 +136,9 @@ export const getStyles = cacheStyles((theme: AppTheme) => ({
 }))
 ```
 
-This example uses `cacheStyles` to build a `getStyles` function. This `getStyles` function accepts the current theme and returns a matching set of styles. If the passed-in theme changes, the `getStyles` function automatically calls `StyleSheet.create` and caches the results for future calls:
+This example uses `cacheStyles` to wrap a `getStyles` function with caching. This `getStyles` function accepts the current theme and returns a matching set of styles. From then on, as long as the theme doesn't change, `getStyles` will continue to return the same cached value:
 
-```typescript
+```tsx
 const HeaderText = props => {
   const theme = ThemeContext.useTheme()
   const styles = getStyles(theme)
@@ -145,9 +147,9 @@ const HeaderText = props => {
 }
 ```
 
-By default, `getStyles` will only remember the last-used theme. If your app frequently switches between several themes (maybe prortrait & landscape modes use separate themes, for instance), you can increase the cache size to keep more than one style sheet around at once:
+By default, `cacheStyles` will only remember the last-used theme. If your app frequently switches between several themes, you can increase the cache size to keep more than one style sheet around at once:
 
-```typescript
+```tsx
 import { setCacheSize } from 'react-native-patina'
 
 setCacheSize(4) // Remember style sheets for the last 4 themes
