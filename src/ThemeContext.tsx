@@ -64,32 +64,13 @@ export function makeThemeContext<Theme>(theme: Theme): ThemeContext<Theme> {
   /**
    * Provides the current theme to the React component tree.
    */
-  class ThemeProvider extends React.Component<
-    ThemeProviderProps,
-    { theme: Theme }
-  > {
-    unsubscribe?: Unsubscribe = undefined
+  const ThemeProvider: React.FunctionComponent<ThemeProviderProps> = props => {
+    const [currentTheme, setCurrentTheme] = React.useState(theme)
+    React.useEffect(() => watchTheme(setCurrentTheme), [])
 
-    constructor(props: ThemeProviderProps) {
-      super(props)
-      this.state = { theme }
-    }
-
-    componentDidMount(): void {
-      this.unsubscribe = watchTheme(theme => this.setState({ theme }))
-    }
-
-    componentWillUnmount(): void {
-      if (this.unsubscribe != null) this.unsubscribe()
-    }
-
-    render(): React.ReactNode {
-      return (
-        <Context.Provider value={this.state.theme}>
-          {this.props.children}
-        </Context.Provider>
-      )
-    }
+    return (
+      <Context.Provider value={currentTheme}>{props.children}</Context.Provider>
+    )
   }
 
   function useTheme(): Theme {
@@ -98,15 +79,12 @@ export function makeThemeContext<Theme>(theme: Theme): ThemeContext<Theme> {
 
   function withTheme<Props extends { theme: Theme }>(
     Component: React.ComponentType<Props>
-  ): React.FunctionComponent<RemoveTheme<Props>> {
-    const WithTheme: React.FunctionComponent<RemoveTheme<Props>> = props => (
-      <Context.Consumer>
-        {theme => (
-          //   @ts-expect-error
-          <Component {...props} theme={theme} />
-        )}
-      </Context.Consumer>
-    )
+  ): React.ComponentType<RemoveTheme<Props>> {
+    const WithTheme: React.FunctionComponent<RemoveTheme<Props>> = props => {
+      const currentTheme = React.useContext(Context)
+      // @ts-expect-error
+      return <Component {...props} theme={currentTheme} />
+    }
     WithTheme.displayName = `WithTheme(${componentName(Component)})`
     return WithTheme
   }
