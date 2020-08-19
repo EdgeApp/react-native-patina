@@ -1,5 +1,9 @@
 # react-native-patina
 
+## 0.1.3 (2020-08-19)
+
+- (fix) The `ThemeProvider` component would incorrectly provide the initial theme, even if the theme had been changed.
+
 ## 0.1.2 (2020-08-06)
 
 - Fix more Typescript type definitions:
