@@ -39,16 +39,19 @@ export interface ThemeContext<Theme> {
  * Constructs a unique ThemeContext.
  * Several of these can coexist within an application.
  */
-export function makeThemeContext<Theme>(theme: Theme): ThemeContext<Theme> {
+export function makeThemeContext<Theme>(
+  initialTheme: Theme
+): ThemeContext<Theme> {
   let callbacks: Array<WatchCallback<Theme>> = []
-  let currentTheme: Theme = theme
+  let theme: Theme = initialTheme
+  const Context = React.createContext(theme)
 
   function getTheme(): Theme {
-    return currentTheme
+    return theme
   }
 
-  function changeTheme(theme: Theme): void {
-    currentTheme = theme
+  function changeTheme(nextTheme: Theme): void {
+    theme = nextTheme
     for (let i = 0; i < callbacks.length; ++i) callbacks[i](theme)
   }
 
@@ -59,17 +62,12 @@ export function makeThemeContext<Theme>(theme: Theme): ThemeContext<Theme> {
     }
   }
 
-  const Context = React.createContext(theme)
-
-  /**
-   * Provides the current theme to the React component tree.
-   */
-  const ThemeProvider: React.FunctionComponent<ThemeProviderProps> = props => {
-    const [currentTheme, setCurrentTheme] = React.useState(theme)
-    React.useEffect(() => watchTheme(setCurrentTheme), [])
+  function ThemeProvider(props: ThemeProviderProps): JSX.Element {
+    const [themeState, setThemeState] = React.useState(theme)
+    React.useEffect(() => watchTheme(setThemeState), [])
 
     return (
-      <Context.Provider value={currentTheme}>{props.children}</Context.Provider>
+      <Context.Provider value={themeState}>{props.children}</Context.Provider>
     )
   }
 
@@ -80,10 +78,10 @@ export function makeThemeContext<Theme>(theme: Theme): ThemeContext<Theme> {
   function withTheme<Props extends { theme: Theme }>(
     Component: React.ComponentType<Props>
   ): React.ComponentType<RemoveTheme<Props>> {
-    const WithTheme: React.FunctionComponent<RemoveTheme<Props>> = props => {
-      const currentTheme = React.useContext(Context)
+    function WithTheme(props: RemoveTheme<Props>): JSX.Element {
+      const theme = React.useContext(Context)
       // @ts-expect-error
-      return <Component {...props} theme={currentTheme} />
+      return <Component {...props} theme={theme} />
     }
     WithTheme.displayName = `WithTheme(${componentName(Component)})`
     return WithTheme
