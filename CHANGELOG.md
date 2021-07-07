@@ -1,5 +1,11 @@
 # react-native-patina
 
+## 0.1.4 (2021-07-07)
+
+### Fixed
+
+- Be more explicit about component return types, to help Flow & Typescript return more accurate errors.
+
 ## 0.1.3 (2020-08-19)
 
 - (fix) The `ThemeProvider` component would incorrectly provide the initial theme, even if the theme had been changed.
