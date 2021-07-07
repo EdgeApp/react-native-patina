@@ -35,7 +35,7 @@ export type ThemeContext<Theme> = {
   useTheme(): Theme,
   withTheme<Props: { theme: Theme }>(
     Component: React.ComponentType<Props>
-  ): React.ComponentType<RemoveTheme<Theme, Props>>
+  ): (props: RemoveTheme<Theme, Props>) => React.Node
 }
 
 declare export function makeThemeContext<Theme>(

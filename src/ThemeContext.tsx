@@ -28,11 +28,11 @@ export interface ThemeContext<Theme> {
   watchTheme: (callback: WatchCallback<Theme>) => Unsubscribe
 
   // React component access:
-  ThemeProvider: React.ComponentType<ThemeProviderProps>
+  ThemeProvider: (props: ThemeProviderProps) => JSX.Element
   useTheme: () => Theme
   withTheme: <Props extends { theme: Theme }>(
     Component: React.ComponentType<Props>
-  ) => React.ComponentType<RemoveTheme<Props>>
+  ) => (props: RemoveTheme<Props>) => JSX.Element
 }
 
 /**
@@ -77,7 +77,7 @@ export function makeThemeContext<Theme>(
 
   function withTheme<Props extends { theme: Theme }>(
     Component: React.ComponentType<Props>
-  ): React.ComponentType<RemoveTheme<Props>> {
+  ): (props: RemoveTheme<Props>) => JSX.Element {
     function WithTheme(props: RemoveTheme<Props>): JSX.Element {
       const theme = React.useContext(Context)
       // @ts-expect-error
