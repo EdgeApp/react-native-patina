@@ -23,16 +23,16 @@ type RemoveTheme<Props> = 'theme' extends keyof Props
  */
 export interface ThemeContext<Theme> {
   // Direct theme access:
-  getTheme(): Theme
-  changeTheme(theme: Theme): void
-  watchTheme(callback: WatchCallback<Theme>): Unsubscribe
+  getTheme: () => Theme
+  changeTheme: (theme: Theme) => void
+  watchTheme: (callback: WatchCallback<Theme>) => Unsubscribe
 
   // React component access:
   ThemeProvider: React.ComponentType<ThemeProviderProps>
-  useTheme(): Theme
-  withTheme<Props extends { theme: Theme }>(
+  useTheme: () => Theme
+  withTheme: <Props extends { theme: Theme }>(
     Component: React.ComponentType<Props>
-  ): React.ComponentType<RemoveTheme<Props>>
+  ) => React.ComponentType<RemoveTheme<Props>>
 }
 
 /**
