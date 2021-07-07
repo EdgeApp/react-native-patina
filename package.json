@@ -3,6 +3,12 @@
   "version": "0.1.3",
   "private": false,
   "description": "A simple, type-aware theming library",
+  "keywords": [
+    "react native",
+    "styles",
+    "theming",
+    "theme"
+  ],
   "repository": "git@github.com:EdgeApp/react-native-patina",
   "license": "MIT",
   "author": "William Swanson <swansontec@gmail.com>",
@@ -15,44 +21,35 @@
     "/src/*"
   ],
   "scripts": {
-    "fix": "npm run lint -- --fix",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
-    "precommit": "lint-staged && yarn prepare",
-    "prepare": "rimraf lib && tsc && cp src/index.flow.js lib/index.js.flow"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run precommit"
-    }
+    "build": "rimraf lib && tsc && cp src/index.flow.js lib/index.js.flow",
+    "fix": "eslint .  --fix",
+    "lint": "eslint .",
+    "precommit": "lint-staged && npm run build",
+    "prepare": "husky install && npm run build"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint"
   },
   "devDependencies": {
-    "@types/react": "^16.8.23",
-    "@types/react-native": "^0.62.0",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
-    "babel-eslint": ">=10.0.0",
-    "eslint": ">=6.2.2",
-    "eslint-config-standard-kit": ">=0.14.2",
-    "eslint-plugin-flowtype": ">=4.3.0",
-    "eslint-plugin-import": ">=2.18.0",
-    "eslint-plugin-prettier": ">=3.0.0",
-    "eslint-plugin-promise": ">=4.2.1",
-    "eslint-plugin-react": ">=7.14.2",
-    "eslint-plugin-simple-import-sort": ">=4.0.0",
-    "eslint-plugin-standard": ">=4.0.0",
+    "@types/react": "^17.0.14",
+    "@types/react-native": "^0.64.11",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.14.0",
+    "eslint-config-standard-kit": "0.15.1",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^6.0.1",
     "flow-bin": "^0.127.0",
-    "husky": "^4.0.0",
-    "lint-staged": "^10.2.0",
-    "prettier": "^2.0.0",
+    "husky": "^7.0.1",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.0",
     "rimraf": "^3.0.0",
-    "typescript": "^3.5.3"
-  },
-  "importSort": {
-    ".js, .ts, .tsx": {
-      "style": "module"
-    }
+    "typescript": "^4.1.2"
   }
 }
