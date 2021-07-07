@@ -12,8 +12,8 @@ export type WatchCallback<Theme> = (theme: Theme) => void
  */
 export type Unsubscribe = () => void
 
-interface ProviderProps {
-  children?: React.Node;
+export type ThemeProviderProps = {
+  children?: React.Node
 }
 
 type RemoveTheme<Theme, Props: { theme: Theme }> = $Diff<
@@ -26,16 +26,16 @@ type RemoveTheme<Theme, Props: { theme: Theme }> = $Diff<
  */
 export type ThemeContext<Theme> = {
   // Direct theme access:
-  getTheme(): Theme,
-  changeTheme(theme: Theme): void,
-  watchTheme(callback: WatchCallback<Theme>): Unsubscribe,
+  +getTheme: () => Theme,
+  +changeTheme: (theme: Theme) => void,
+  +watchTheme: (callback: WatchCallback<Theme>) => Unsubscribe,
 
   // React component access:
-  ThemeProvider: React.ComponentType<ProviderProps>,
-  useTheme(): Theme,
-  withTheme<Props: { theme: Theme }>(
+  +ThemeProvider: React$StatelessFunctionalComponent<ThemeProviderProps>,
+  +useTheme: () => Theme,
+  +withTheme: <Props: { theme: Theme }>(
     Component: React.ComponentType<Props>
-  ): (props: RemoveTheme<Theme, Props>) => React.Node
+  ) => React$StatelessFunctionalComponent<RemoveTheme<Theme, Props>>
 }
 
 declare export function makeThemeContext<Theme>(
