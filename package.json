@@ -17,8 +17,7 @@
     "/CHANGELOG.md",
     "/lib/*",
     "/package.json",
-    "/README.md",
-    "/src/*"
+    "/README.md"
   ],
   "scripts": {
     "build": "rimraf lib && tsc && cp src/index.flow.js lib/index.js.flow",
