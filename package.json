@@ -24,12 +24,7 @@
     "fix": "npm run lint -- --fix",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "precommit": "lint-staged && yarn prepare",
-    "prepare": "rimraf lib && tsc && cp src/index.flow.js lib/index.js.flow"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run precommit"
-    }
+    "prepare": "husky install && rimraf lib && tsc && cp src/index.flow.js lib/index.js.flow"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint"
@@ -50,7 +45,7 @@
     "eslint-plugin-simple-import-sort": ">=4.0.0",
     "eslint-plugin-standard": ">=4.0.0",
     "flow-bin": "^0.127.0",
-    "husky": "^4.0.0",
+    "husky": "^6.0.0",
     "lint-staged": "^10.2.0",
     "prettier": "^2.0.0",
     "rimraf": "^3.0.0",
