@@ -1,5 +1,12 @@
 # react-native-patina
 
+## 0.1.5 (2021-07-28)
+
+### Fixed
+
+- Fix the Flow component-type definitions, so props-checking works again.
+- Stop including raw source code in the NPM package.
+
 ## 0.1.4 (2021-07-07)
 
 ### Fixed
