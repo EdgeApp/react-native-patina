@@ -64,7 +64,14 @@ export function makeThemeContext<Theme>(
 
   function ThemeProvider(props: ThemeProviderProps): JSX.Element {
     const [themeState, setThemeState] = React.useState(theme)
-    React.useEffect(() => watchTheme(setThemeState), [])
+    React.useEffect(
+      () => {
+        if (theme !== themeState) setThemeState(theme)
+        return watchTheme(setThemeState)
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      []
+    )
 
     return (
       <Context.Provider value={themeState}>{props.children}</Context.Provider>
