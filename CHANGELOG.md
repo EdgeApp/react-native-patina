@@ -1,5 +1,9 @@
 # react-native-patina
 
+## 0.1.6 (2021-11-02)
+
+- fixed: Close a race condition in `ThemeProvider`.
+
 ## 0.1.5 (2021-07-28)
 
 - fixed: Fix the Flow component-type definitions, so props-checking works again.
