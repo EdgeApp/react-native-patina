@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- changed: Convert the build tooling from Yarn to npm.
+- security: Upgrade dependencies per Socket security recommendations.
+
 ## 0.1.6 (2021-11-02)
 
 - fixed: Close a race condition in `ThemeProvider`.
