@@ -1,5 +1,7 @@
 # react-native-patina
 
+## Unreleased
+
 ## 0.1.6 (2021-11-02)
 
 - fixed: Close a race condition in `ThemeProvider`.
