@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.0 (2026-06-15)
+
 - changed: Convert the build tooling from Yarn to npm.
 - security: Upgrade dependencies per Socket security recommendations.
 
